@@ -1,7 +1,7 @@
 ### IntelliJ IDEA ###
-.idea
+.idea/
 out/
-src/META-INF
+src/META-INF/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
