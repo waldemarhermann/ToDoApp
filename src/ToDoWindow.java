@@ -12,6 +12,8 @@ public class ToDoWindow extends JFrame{
 
     private ToDoManager toDoManager;
 
+    private JPanel toDoArea;
+
 
     // Hier ist das erstellte Fenster
     public ToDoWindow(ToDoManager toDoManager) {
@@ -20,12 +22,12 @@ public class ToDoWindow extends JFrame{
         setTitle("ToDo App");
         setSize(720, 1080);
 
-        toDoManager.add(new ToDo("test1", "beschreibung1", false));
-        toDoManager.add(new ToDo("test2", "beschreibung2", true));
-        toDoManager.add(new TimedToDo("test2", "beschreibung3", true, LocalDateTime.now().plusHours(4)));
-
-        add(createToDoArea(), BorderLayout.CENTER);
+        add((toDoArea = createToDoArea()), BorderLayout.CENTER);
         add(createButtonRow(), BorderLayout.SOUTH);
+
+        pack();
+
+        addWindowListener(new CustomWindowAdapter(toDoManager));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
@@ -80,20 +82,19 @@ public class ToDoWindow extends JFrame{
                 if (hours.isEmpty()) return;
 
                 try {
-                        int hoursInteger = Integer.parseInt(hours);
-                        if (hoursInteger == 0) {
-                            toDoManager.add(new ToDo(title, description, false));
-                        } else {
-                            toDoManager.add(new TimedToDo(title, description, false, LocalDateTime.now().plusHours(hoursInteger)));
-                        }
+                    int hoursInteger = Integer.parseInt(hours);
+                    if (hoursInteger == 0) {
+                        toDoManager.add(new ToDo(title, description, false));
+                    } else {
+                        toDoManager.add(new TimedToDo(title, description, false, LocalDateTime.now().plusHours(hoursInteger)));
+                    }
                 } catch (Exception exception) {
                     toDoManager.add(new ToDo(title, description, false));
                 }
 
-                System.out.println("Add");
-                for (int i = 0; i < toDoManager.getToDos().size(); i++) {
-                    System.out.println(toDoManager.getToDos().get(i));
-                }
+                remove(toDoArea);
+                add((toDoArea = createToDoArea()), BorderLayout.CENTER);
+                pack();
             }
         });
 
@@ -103,10 +104,9 @@ public class ToDoWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 toDoManager.getToDos().clear();
 
-                System.out.println("Remove All");
-                for (int i = 0; i < toDoManager.getToDos().size(); i++) {
-                    System.out.println(toDoManager.getToDos().get(i));
-                }
+                remove(toDoArea);
+                add((toDoArea = createToDoArea()), BorderLayout.CENTER);
+                pack();
             }
         });
 
@@ -121,10 +121,10 @@ public class ToDoWindow extends JFrame{
                         toDoManager.getToDos().remove(i);
                     }
 
-                    System.out.println("Remove Completed");
-                    for (int k = 0; k < toDoManager.getToDos().size(); k++) {
-                        System.out.println(toDoManager.getToDos().get(k));
-                    }
+                    remove(toDoArea);
+                    add((toDoArea = createToDoArea()), BorderLayout.CENTER);
+
+                    pack();
                 }
             }
         });
