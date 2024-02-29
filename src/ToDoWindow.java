@@ -130,8 +130,6 @@ public class ToDoWindow extends JFrame{
         });
 
 
-        // Kommentar zum Testen
-
         jPanel.add(add);
         jPanel.add(removeAll);
         jPanel.add(removeDone);
