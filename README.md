@@ -23,4 +23,4 @@ CustomWindowAdapter for saving tasks upon application closure.
 
 ## Starting the Application
 
-The executable JAR file for the ToDoApp can be downloaded from the project's [Releases](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/releases) section. Look for the latest version `ToDoApp_v1.0.jar` to run the application locally.
+The executable JAR file for the ToDoApp can be downloaded from the project's [Releases](https://github.com/waldemarhermann/ToDoApp/releases) section. Look for the latest version `ToDoApp_v1.0.jar` to run the application locally.
