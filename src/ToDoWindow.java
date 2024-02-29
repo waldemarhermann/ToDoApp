@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.ArrayList;
 
 public class ToDoWindow extends JFrame{
 
@@ -19,8 +20,11 @@ public class ToDoWindow extends JFrame{
         setTitle("ToDo App");
         setSize(720, 1080);
 
-        TimedToDo timedToDo = new TimedToDo("TimedToDo", "Hallo Welt", true, LocalDateTime.now().plusMinutes(3));
-        add(createToDoBlock(timedToDo), BorderLayout.CENTER);
+        toDoManager.add(new ToDo("test1", "beschreibung1", false));
+        toDoManager.add(new ToDo("test2", "beschreibung2", true));
+        toDoManager.add(new TimedToDo("test2", "beschreibung3", true, LocalDateTime.now().plusHours(4)));
+
+        add(createToDoArea(), BorderLayout.CENTER);
         add(createButtonRow(), BorderLayout.SOUTH);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -65,9 +69,26 @@ public class ToDoWindow extends JFrame{
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ToDo toDo = new ToDo("Beispiel ToDo", "Etwas zu erledigen", false);
 
-                toDoManager.add(toDo);
+                String title = getInput("Bitte den Titel eingeben: ");
+                if (title.isEmpty()) return;
+
+                String description = getInput("Bitte die Beschreibung eingeben: ");
+                if (description.isEmpty()) return;
+
+                String hours = getInput("Wann soll die Aufgabe ablaufen? Bitte die Stundenanzahl eingeben: ");
+                if (hours.isEmpty()) return;
+
+                try {
+                        int hoursInteger = Integer.parseInt(hours);
+                        if (hoursInteger == 0) {
+                            toDoManager.add(new ToDo(title, description, false));
+                        } else {
+                            toDoManager.add(new TimedToDo(title, description, false, LocalDateTime.now().plusHours(hoursInteger)));
+                        }
+                } catch (Exception exception) {
+                    toDoManager.add(new ToDo(title, description, false));
+                }
 
                 System.out.println("Add");
                 for (int i = 0; i < toDoManager.getToDos().size(); i++) {
@@ -114,5 +135,33 @@ public class ToDoWindow extends JFrame{
         jPanel.add(removeDone);
 
         return jPanel;
+    }
+
+    private JPanel createToDoArea() {
+        JPanel jPanel = new JPanel();
+
+        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
+
+        ArrayList<ToDo> toDos = toDoManager.getToDos();
+        for (int i = 0; i < toDos.size(); i++) {
+            jPanel.add(createToDoBlock(toDos.get(i)));
+        }
+
+        return jPanel;
+    }
+
+    private String getInput(String prompt) {
+        while(true) {
+            String input = JOptionPane.showInputDialog(prompt);
+
+            if (input == null) {
+                return "";
+            }
+
+            if (!input.isEmpty()) {
+                return input;
+            }
+        }
+
     }
 }
