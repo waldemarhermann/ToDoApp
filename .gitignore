@@ -27,3 +27,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# Ignoriere die ToDo-App Speicherdatei
+todoapp_savefile.txt
