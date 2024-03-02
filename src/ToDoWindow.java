@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ToDoWindow extends JFrame{
 
-    private ToDoManager toDoManager;
+    private final ToDoManager toDoManager;
 
     private JPanel toDoArea;
 
@@ -36,14 +36,14 @@ public class ToDoWindow extends JFrame{
 
     // Hier ist der erstellte Container für den create-Block
     private JPanel createToDoBlock(ToDo toDo) {
-        JPanel jPanel = new JPanel();
+        final JPanel jPanel = new JPanel();
 
         jPanel.setLayout(new BorderLayout());
 
         jPanel.add(new JLabel(toDo.getTitel()), BorderLayout.NORTH);
         jPanel.add(new JLabel(toDo.getBeschreibung()), BorderLayout.CENTER);
 
-        JCheckBox jCheckBox = new JCheckBox();
+        final JCheckBox jCheckBox = new JCheckBox();
         jCheckBox.setSelected(toDo.getErledigt());
         jCheckBox.addActionListener(new ActionListener() {
             @Override
@@ -63,26 +63,26 @@ public class ToDoWindow extends JFrame{
 
 
     private JPanel createButtonRow() { // Hier müssen keine Argumente angenommen werden, da diese Reihe immer gleich bleibt
-        JPanel jPanel = new JPanel();
+        final JPanel jPanel = new JPanel();
 
         jPanel.setLayout(new FlowLayout());
 
-        JButton add = new JButton("Hinzufügen");
+        final JButton add = new JButton("Hinzufügen");
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String title = getInput("Bitte den Titel eingeben: ");
+                final String title = getInput("Bitte den Titel eingeben: ");
                 if (title.isEmpty()) return;
 
-                String description = getInput("Bitte die Beschreibung eingeben: ");
+                final String description = getInput("Bitte die Beschreibung eingeben: ");
                 if (description.isEmpty()) return;
 
-                String hours = getInput("Wann soll die Aufgabe ablaufen? Bitte die Stundenanzahl eingeben: ");
+                final String hours = getInput("Wann soll die Aufgabe ablaufen? Bitte die Stundenanzahl eingeben: ");
                 if (hours.isEmpty()) return;
 
                 try {
-                    int hoursInteger = Integer.parseInt(hours);
+                    final int hoursInteger = Integer.parseInt(hours);
                     if (hoursInteger == 0) {
                         toDoManager.add(new ToDo(title, description, false));
                     } else {
@@ -98,7 +98,7 @@ public class ToDoWindow extends JFrame{
             }
         });
 
-        JButton removeAll = new JButton("Alle Löschen");
+        final JButton removeAll = new JButton("Alle Löschen");
         removeAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -111,7 +111,7 @@ public class ToDoWindow extends JFrame{
         });
 
 
-        JButton removeDone = new JButton(("Erledigte entfernen"));
+        final JButton removeDone = new JButton(("Erledigte entfernen"));
 
         removeDone.addActionListener(new ActionListener() {
             @Override
@@ -123,7 +123,6 @@ public class ToDoWindow extends JFrame{
 
                     remove(toDoArea);
                     add((toDoArea = createToDoArea()), BorderLayout.CENTER);
-
                     pack();
                 }
             }
@@ -138,11 +137,11 @@ public class ToDoWindow extends JFrame{
     }
 
     private JPanel createToDoArea() {
-        JPanel jPanel = new JPanel();
+        final JPanel jPanel = new JPanel();
 
         jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
 
-        ArrayList<ToDo> toDos = toDoManager.getToDos();
+        final ArrayList<ToDo> toDos = toDoManager.getToDos();
         for (int i = 0; i < toDos.size(); i++) {
             jPanel.add(createToDoBlock(toDos.get(i)));
         }
@@ -152,7 +151,7 @@ public class ToDoWindow extends JFrame{
 
     private String getInput(String prompt) {
         while(true) {
-            String input = JOptionPane.showInputDialog(prompt);
+            final String input = JOptionPane.showInputDialog(prompt);
 
             if (input == null) {
                 return "";

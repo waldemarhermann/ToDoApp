@@ -3,7 +3,7 @@ import java.awt.event.WindowEvent;
 
 public class CustomWindowAdapter extends WindowAdapter {
 
-    private ToDoManager toDoManager;
+    private final ToDoManager toDoManager;
 
     public CustomWindowAdapter(ToDoManager toDoManager) {
         this.toDoManager = toDoManager;

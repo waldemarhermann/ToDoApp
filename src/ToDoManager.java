@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class ToDoManager {
 
     // liste todos
-    private ArrayList<ToDo> toDos = new ArrayList<>();
+    private final ArrayList<ToDo> toDos = new ArrayList<>();
 
-    private String path;
+    private final String path;
 
     public ToDoManager(String path) {
         this.path = path;
@@ -32,10 +32,10 @@ public class ToDoManager {
 
     // getTimedToDos
     public ArrayList<TimedToDo> getTimedToDos() {
-        ArrayList<TimedToDo> timedToDos = new ArrayList<>();
+        final ArrayList<TimedToDo> timedToDos = new ArrayList<>();
 
         for (int i = 0; i < toDos.size(); i++) {
-            ToDo toDo = toDos.get(i);
+            final ToDo toDo = toDos.get(i);
 
             if (toDo instanceof TimedToDo) {
                 timedToDos.add((TimedToDo) toDo);
@@ -48,10 +48,10 @@ public class ToDoManager {
 
     // get(Normal)ToDos
     public ArrayList<ToDo> getNormalToDos() {
-        ArrayList<ToDo> normalToDos = new ArrayList<>();
+        final ArrayList<ToDo> normalToDos = new ArrayList<>();
 
         for (int i = 0; i < toDos.size(); i++) {
-            ToDo toDo = toDos.get(i);
+            final ToDo toDo = toDos.get(i);
 
             if (!(toDo instanceof TimedToDo)) {
                 normalToDos.add(toDo);
@@ -68,10 +68,10 @@ public class ToDoManager {
 
     // entferne abgelaufene
     public void removeExpiredToDos() {
-        ArrayList<TimedToDo> timedToDos = getTimedToDos();
+        final ArrayList<TimedToDo> timedToDos = getTimedToDos();
 
         for (int i = 0; i < timedToDos.size(); i++) {
-            TimedToDo timedToDo = timedToDos.get(i);
+            final TimedToDo timedToDo = timedToDos.get(i);
 
             if (timedToDo.getEndet().isBefore(LocalDateTime.now())) {
                 remove(timedToDo);
@@ -80,16 +80,16 @@ public class ToDoManager {
     }
 
     public void saveToDos() {
-        File file = new File(this.path);
+        final File file = new File(this.path);
 
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
 
-            FileWriter fileWriter = new FileWriter(file);
+            final FileWriter fileWriter = new FileWriter(file);
             for (int i = 0; i < toDos.size(); i++) {
-                ToDo toDo = toDos.get(i);
+                final ToDo toDo = toDos.get(i);
 
                 String saveString = toDo.getTitel() + "_" + toDo.getBeschreibung() + "_" + toDo.getErledigt();
                 if (toDo instanceof TimedToDo) {
@@ -106,12 +106,12 @@ public class ToDoManager {
     }
 
     public void loadToDos()       {
-        File file = new File(this.path);
+        final File file = new File(this.path);
 
         if (!file.exists()) return;
 
         try {
-            FileReader fileReader = new FileReader(file);
+            final FileReader fileReader = new FileReader(file);
 
             String fullString = "";
 
@@ -122,11 +122,10 @@ public class ToDoManager {
 
             fileReader.close();
 
-            String[] lines = fullString.split("\n");
-            String data;
+            final String[] lines = fullString.split("\n");
             for (int i = 0; i < lines.length; i++) {
-               String line = lines[i];
-               String[] components = line.split("_");
+               final String line = lines[i];
+               final String[] components = line.split("_");
 
                if (components.length == 3) {
                    toDos.add(new ToDo(components[0], components[1], Boolean.valueOf(components[2])));
